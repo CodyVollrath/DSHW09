@@ -12,7 +12,6 @@ public class BinaryNode<T> {
 	private BinaryNode<T> leftChild;
 	private BinaryNode<T> rightChild;
 	private BinaryNode<T> parent;
-	private boolean visited;
 
 	/**
 	 * Instantiates a new binary node
@@ -35,7 +34,6 @@ public class BinaryNode<T> {
 	 */
 	public BinaryNode(T value) {
 		this.value = value;
-		this.visited = false;
 		this.leftChild = null;
 		this.rightChild = null;
 		this.parent = null;
@@ -118,24 +116,6 @@ public class BinaryNode<T> {
 	 */
 	public void setValue(T value) {
 		this.value = value;
-	}
-	
-	/**
-	 * Set the visited flag to true or false
-	 * @pre none
-	 * @post getVisited() == value
-	 * @param value the boolean value indicating if a node is visited
-	 */
-	public void setVisited(boolean value) {
-		this.visited = value;
-	}
-	
-	/**
-	 * Get the visited flag of the node
-	 * @return true if visited, false otherwise
-	 */
-	public boolean isVisited() {
-		return this.visited;
 	}
 
 	/**
