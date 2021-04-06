@@ -260,41 +260,36 @@ public class BinaryTree<E> implements Iterable<E> {
 	
 	protected class PostOrderIterator implements Iterator<E> {
 		BinaryNode<E> currNode;
-		private boolean allNodesVisited;
+		private boolean finished;
 		public PostOrderIterator() {
 			this.currNode = BinaryTree.this.root;
-			this.allNodesVisited = false;
+			this.finished = false;
+			while (this.currNode.hasLeftChild()) {
+				this.currNode = this.currNode.getLeftChild();
+			}
 		}
 		
 		@Override
 		public boolean hasNext() {
-			return !this.allNodesVisited;
+			return !this.finished;
 		}
 
 		@Override
 		public E next() {
-			E value = null;
-			while (this.currNode != null && !this.currNode.isVisited()) {
-				if (this.currNode.hasLeftChild() && 
-					!this.currNode.getLeftChild().isVisited()) {
+			E value = this.currNode.getValue();
+			if (!this.currNode.hasParent()) {
+				this.finished = true;
+				return value;
+			}
+			
+			if (this.currNode.getParent().getRightChild().equals(this.currNode)) {
+				this.currNode = this.currNode.getParent();
+			} else if (this.currNode.getParent().getLeftChild().equals(this.currNode)) {
+				this.currNode = this.currNode.getParent().getRightChild();
+				while (this.currNode.hasLeftChild()) {
 					this.currNode = this.currNode.getLeftChild();
-					
-				} else if (this.currNode.hasRightChild() &&
-						   !this.currNode.getRightChild().isVisited()) {
-					this.currNode = this.currNode.getRightChild();
-				} else  {
-					this.currNode.setVisited(true);
-					value = this.currNode.getValue();
-					if (this.currNode.hasParent()) {
-						this.currNode = this.currNode.getParent();
-						return value;
-					} else {
-						value = root.getValue();
-					}
-					
 				}
 			}
-			this.allNodesVisited = true;
 			return value;
 		}
 
