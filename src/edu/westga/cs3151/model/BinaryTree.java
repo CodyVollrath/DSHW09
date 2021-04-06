@@ -277,6 +277,10 @@ public class BinaryTree<E> implements Iterable<E> {
 		@Override
 		public E next() {
 			E value = this.currNode.getValue();
+			if (!this.currNode.hasParent()) {
+				this.finished = true;
+				return value;
+			}
 			
 			if (this.currNode.getParent().getRightChild().equals(this.currNode)) {
 				this.currNode = this.currNode.getParent();
@@ -287,10 +291,7 @@ public class BinaryTree<E> implements Iterable<E> {
 				}
 			}
 			
-			if (!this.currNode.hasParent()) {
-				this.finished = true;
-				return value;
-			}
+
 			return value;
 		}
 
